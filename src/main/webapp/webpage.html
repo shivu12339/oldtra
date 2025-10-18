@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ByteBub - From Local Ideas to Global Platforms</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --secondary: #1e40af;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --accent: #6366f1;
+            --text: #334155;
+            --border: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            padding: 1rem 5%;
+            box-shadow: 0 2px 30px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .cta-btn {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow: hidden;
+            padding: 0 5%;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: moveGrid 20s linear infinite;
+        }
+
+        @keyframes moveGrid {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .hero-content {
+            text-align: center;
+            color: white;
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            opacity: 0.95;
+            animation: fadeInUp 1s ease 0.2s backwards;
+        }
+
+        .hero-badges {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease 0.4s backwards;
+        }
+
+        .badge {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .badge h3 {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 0.3rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 3rem;
+            animation: fadeInUp 1s ease 0.6s backwards;
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 1.1rem;
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--primary);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* About Section */
+        .about {
+            padding: 8rem 5%;
+            background: var(--light);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .section-header h2 {
+            font-size: 3rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 2px;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .about-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid var(--border);
+        }
+
+        .about-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.15);
+        }
+
+        .about-card h3 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .about-card p {
+            color: var(--text);
+            line-height: 1.8;
+        }
+
+        /* Services Section */
+        .services {
+            padding: 8rem 5%;
+            background: white;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 3rem;
+            border-radius: 25px;
+            color: white;
+            transition: transform 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255,255,255,0.1);
+            transform: translateY(100%);
+            transition: transform 0.3s;
+        }
+
+        .service-card:hover::before {
+            transform: translateY(0);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .service-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .service-card p {
+            opacity: 0.95;
+            line-height: 1.8;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Portfolio Section */
+        .portfolio {
+            padding: 8rem 5%;
+            background: var(--light);
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .portfolio-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+        }
+
+        .portfolio-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        }
+
+        .portfolio-img {
+            height: 250px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            font-weight: 800;
+        }
+
+        .portfolio-content {
+            padding: 2rem;
+        }
+
+        .portfolio-content h3 {
+            font-size: 1.5rem;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .portfolio-tag {
+            color: var(--primary);
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+
+        .portfolio-content p {
+            color: var(--text);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tech-tag {
+            background: var(--light);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 8rem 5%;
+            background: var(--dark);
+            color: white;
+        }
+
+        .contact-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .contact h2 {
+            font-size: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            padding: 1.2rem;
+            border-radius: 15px;
+            border: 2px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.05);
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .contact-form input::placeholder,
+        .contact-form textarea::placeholder {
+            color: rgba(255,255,255,0.5);
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(255,255,255,0.1);
+        }
+
+        .contact-form textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 1.2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(37, 99, 235, 0.4);
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 4rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            text-align: center;
+        }
+
+        .contact-item h4 {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-item p {
+            font-size: 1.1rem;
+        }
+
+        /* Footer */
+        footer {
+            background: #0a0f1c;
+            color: rgba(255,255,255,0.7);
+            padding: 3rem 5%;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav id="navbar">
+        <div class="logo">ByteBub</div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#portfolio">Portfolio</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <a href="#contact" class="cta-btn">Say Hi!</a>
+    </nav>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>From Local Ideas to Global Platforms</h1>
+            <p>As good as an in-house team</p>
+            <div class="hero-badges">
+                <div class="badge">
+                    <h3>⚡ Lightning Fast</h3>
+                </div>
+                <div class="badge">
+                    <h3>💎 Clean Code</h3>
+                </div>
+                <div class="badge">
+                    <h3>🔒 Rock-Solid Security</h3>
+                </div>
+            </div>
+            <p style="margin-top: 2rem;">From groundbreaking web platforms to intuitive mobile apps, we engineer robust, scalable, and secure software that drives innovation.</p>
+            <div class="hero-buttons">
+                <a href="#contact" class="btn-primary">Get Free Consultation</a>
+                <a href="#portfolio" class="btn-secondary">View Our Work</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="about" id="about">
+        <div class="section-header">
+            <h2>About Us</h2>
+            <p>Your vision, our expertise: Let's build the future, together</p>
+        </div>
+        <div class="about-grid">
+            <div class="about-card">
+                <h3>Who We Are</h3>
+                <p>Finding a tech partner who truly "gets" your vision isn't easy. At GRT Engineering Services Pvt. Ltd., we've spent over 7 years mastering the art of building not just software — but business-ready digital ecosystems that perform, scale, and evolve with you.</p>
+            </div>
+            <div class="about-card">
+                <h3>Our Team</h3>
+                <p>We're not your average development team. We're problem solvers, solution architects, and long-term collaborators who treat every project as our own. From startups validating MVPs to enterprises scaling nationwide, we help turn bold ideas into high-performing, secure, and sustainable digital products.</p>
+            </div>
+            <div class="about-card">
+                <h3>Our Expertise</h3>
+                <p>We're here to help you launch faster, scale smarter, and grow stronger. Whether you have a napkin sketch or detailed wireframes, our team is ready to transform your vision into a market-ready product — with clarity, collaboration, and code that lasts.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="services" id="services">
+        <div class="section-header">
+            <h2>Premium Services</h2>
+            <p>Delivering exceptional solutions with cutting-edge technology</p>
+        </div>
+        <div class="services-grid">
+            <div class="service-card">
+                <h3>🌐 Web Development</h3>
+                <p>Custom websites, enterprise dashboards, admin portals built with precision and performance.</p>
+            </div>
+            <div class="service-card">
+                <h3>📱 Mobile App Development</h3>
+                <p>Cross-platform apps using Flutter for seamless experiences on Android & iOS.</p>
+            </div>
+            <div class="service-card">
+                <h3>⚙️ Full-Stack Solutions</h3>
+                <p>Robust solutions with MERN Stack, Java Spring Boot, and other leading technologies.</p>
+            </div>
+            <div class="service-card">
+                <h3>🎨 UI/UX Design</h3>
+                <p>Crafting user-friendly, responsive interfaces that delight and engage.</p>
+            </div>
+            <div class="service-card">
+                <h3>☁️ Cloud Deployment</h3>
+                <p>Secure and scalable deployment on AWS, Serverbyt, Hostinger, and more.</p>
+            </div>
+            <div class="service-card">
+                <h3>🔧 Maintenance & Support</h3>
+                <p>Continuous improvements, bug fixes, and system updates to keep your systems running smoothly.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="portfolio" id="portfolio">
+        <div class="section-header">
+            <h2>Our Portfolio</h2>
+            <p>Discover the innovative solutions we've crafted for our diverse clientele</p>
+        </div>
+        <div class="portfolio-grid">
+            <div class="portfolio-card">
+                <div class="portfolio-img">AI</div>
+                <div class="portfolio-content">
+                    <span class="portfolio-tag">Web Development</span>
+                    <h3>AI-Powered Analytics Platform</h3>
+                    <p>Enterprise-grade dashboard delivering real-time insights and predictive analytics using machine learning.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">D3.js</span>
+                        <span class="tech-tag">AWS</span>
+                    </div>
+                </div>
+            </div>
+            <div class="portfolio-card">
+                <div class="portfolio-img">🛒</div>
+                <div class="portfolio-content">
+                    <span class="portfolio-tag">Web Development</span>
+                    <h3>Global E-commerce Marketplace</h3>
+                    <p>A multi-vendor e-commerce solution with advanced inventory management and localized payment systems.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">MERN Stack</span>
+                        <span class="tech-tag">Stripe</span>
+                        <span class="tech-tag">Elasticsearch</span>
+                    </div>
+                </div>
+            </div>
+            <div class="portfolio-card">
+                <div class="portfolio-img">💪</div>
+                <div class="portfolio-content">
+                    <span class="portfolio-tag">Mobile App</span>
+                    <h3>Health & Wellness Mobile App</h3>
+                    <p>Cross-platform Flutter app integrating wearable tech for personalized fitness and mindfulness coaching.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Flutter</span>
+                        <span class="tech-tag">Firebase</span>
+                        <span class="tech-tag">HealthKit</span>
+                    </div>
+                </div>
+            </div>
+            <div class="portfolio-card">
+                <div class="portfolio-img">🚚</div>
+                <div class="portfolio-content">
+                    <span class="portfolio-tag">Full-Stack</span>
+                    <h3>Logistics Management System</h3>
+                    <p>Comprehensive solution for real-time tracking, route optimization, and fleet management.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Java Spring Boot</span>
+                        <span class="tech-tag">PostgreSQL</span>
+                        <span class="tech-tag">React</span>
+                    </div>
+                </div>
+            </div>
+            <div class="portfolio-card">
+                <div class="portfolio-img">💳</div>
+                <div class="portfolio-content">
+                    <span class="portfolio-tag">UI/UX Design</span>
+                    <h3>Fintech Neobank UI/UX</h3>
+                    <p>Modern, secure, and intuitive UI/UX design for a challenger bank, focusing on transparency and accessibility.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Figma</span>
+                        <span class="tech-tag">User-Centered</span>
+                        <span class="tech-tag">Accessibility</span>
+                    </div>
+                </div>
+            </div>
+            <div class="portfolio-card">
+                <div class="portfolio-img">🏙️</div>
+                <div class="portfolio-content">
+                    <span class="portfolio-tag">Web Development</span>
+                    <h3>Smart City IoT Platform</h3>
+                    <p>Web application for monitoring and managing city-wide IoT devices with data visualization.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">Node.js</span>
+                        <span class="tech-tag">MQTT</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact" id="contact">
+        <div class="contact-content">
+            <h2>Ready to Start Your Project?</h2>
+            <p>Contact us today for a free consultation</p>
+            
+            <form class="contact-form">
+                <input type="text" placeholder="Your Name" required>
+                <input type="email" placeholder="Your Email" required>
+                <textarea placeholder="Your Message" required></textarea>
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+
+            <div class="contact-info">
+                <div class="contact-item">
+                    <h4>EMAIL</h4>
+                    <p>contact.bytebub@grtengg.co.in</p>
+                </div>
+                <div class="contact-item">
+                    <h4>PHONE</h4>
+                    <p>+91-8073343628</p>
+                </div>
+                <div class="contact-item">
+                    <h4>LOCATION</h4>
+                    <p>Bengaluru, India</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-links">
+            <a href="#home">Home</a>
+            <a href="#about">About Us</a>
+            <a href="#services">Services</a>
+            <a href="#portfolio">Portfolio</a>
+            <a href="#contact">Contact</a>
+        </div>
+        <p>© 2025 ByteBub. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Form submission
+        document.querySelector('.contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your message! We will get back to you soon.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
